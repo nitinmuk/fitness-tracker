@@ -1,0 +1,33 @@
+{
+  "name": "fitness-tracker",
+  "version": "1.0.0",
+  "description": "web application to track workout progress",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeders/seed.js"
+  },
+  "author": "Nitin Mukesh",
+  "license": "Unlicense",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.3.16",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "prettier": "^1.13.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitinmuk/fitness-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nitinmuk/fitness-tracker/issues"
+  },
+  "homepage": "https://github.com/nitinmuk/fitness-tracker#readme"
+}
