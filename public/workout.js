@@ -2,8 +2,8 @@ async function initWorkout() {
   const lastWorkout = await API.getLastWorkout();
   if (lastWorkout) {
     document
-      .querySelector("a[href='./exercise.html?']")
-      .setAttribute("href", `./exercise.html?id=${lastWorkout._id}`);
+      .querySelector("a[href='/exercise.html?']")
+      .setAttribute("href", `/exercise.html?id=${lastWorkout._id}`);
     tallied = tallyExercises(lastWorkout.exercises);
     const workoutSummary = {
       date: formatDate(lastWorkout.day),
