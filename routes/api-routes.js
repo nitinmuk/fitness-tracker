@@ -10,7 +10,7 @@ module.exports = app => {
           durationSum += exercise.duration;
         });
         return {
-          id: wo._id,
+          _id: wo._id,
           day: wo.day,
           totalDuration: durationSum,
           exercises: wo.exercises
@@ -20,6 +20,36 @@ module.exports = app => {
     } catch (error) {
       console.log(
         "Error ocurred while fetching workouts. Detailed error:",
+        error
+      );
+      response.sendStatus(500);
+    }
+  });
+  // route to create a workout doc
+  app.post("/api/workouts", async (request, response) => {
+    try {
+      const workout = await db.Workout.create(request.body);
+      response.status(201).json(workout);
+    } catch (error) {
+      console.log(
+        "error ocurred while creating workout. Detail error: ",
+        error
+      );
+      response.sendStatus(500);
+    }
+  });
+  // route to update a workout doc
+  app.put("/api/workouts/:id", async (request, response) => {
+    try {
+      const workout = await db.Workout.findById(request.params.id);
+      if (workout) {
+        workout.exercises.push(request.body);
+        await workout.save();
+        response.json(workout);
+      }
+    } catch (error) {
+      console.log(
+        `Error ocurred while updating workout id: ${request.params.id}`,
         error
       );
       response.sendStatus(500);

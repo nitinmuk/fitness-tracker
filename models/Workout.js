@@ -15,7 +15,7 @@ const ExerciseSchema = new Schema({
     required: true
   },
   distance: {
-    type: mongoose.Decimal128,
+    type: Number,
     required: [
       function() {
         return this.type === "cardio";
@@ -27,6 +27,9 @@ const ExerciseSchema = new Schema({
     type: Number
   },
   reps: {
+    type: Number
+  },
+  weight: {
     type: Number
   }
 });
