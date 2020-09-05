@@ -4,7 +4,7 @@ async function initWorkout() {
     document
       .querySelector("a[href='/exercise.html?']")
       .setAttribute("href", `/exercise.html?id=${lastWorkout._id}`);
-    tallied = tallyExercises(lastWorkout.exercises);
+    const tallied = tallyExercises(lastWorkout.exercises);
     const workoutSummary = {
       date: formatDate(lastWorkout.day),
       totalDuration: lastWorkout.totalDuration,
@@ -75,11 +75,11 @@ function renderWorkoutSummary(summary) {
 }
 
 function renderNoWorkoutText() {
+  document.querySelector("#continue-btn").classList.add("d-none");
   const container = document.querySelector(".workout-stats");
   const p = document.createElement("p");
   const strong = document.createElement("strong");
   strong.textContent = "You have not created a workout yet!";
-
   p.appendChild(strong);
   container.appendChild(p);
 }
