@@ -27,7 +27,9 @@ function generatePalette() {
 }
 function populateChart(data) {
   const durations = duration(data);
+  const workoutDurations = workoutDuration(data);
   const pounds = calculateTotalWeight(data);
+  const workoutPounds = calculateWorkoutTotalWeight(data);
   const workouts = workoutNames(data);
   const colors = generatePalette();
 
@@ -54,7 +56,7 @@ function populateChart(data) {
           label: "Workout Duration In Minutes",
           backgroundColor: "red",
           borderColor: "red",
-          data: durations,
+          data: workoutDurations,
           fill: false
         }
       ]
@@ -62,7 +64,8 @@ function populateChart(data) {
     options: {
       responsive: true,
       title: {
-        display: true
+        display: true,
+        text: "Workouts Done During Last 30 days"
       },
       scales: {
         xAxes: [
@@ -101,7 +104,7 @@ function populateChart(data) {
       datasets: [
         {
           label: "Pounds",
-          data: pounds,
+          data: workoutPounds,
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
@@ -125,7 +128,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Pounds Lifted"
+        text: "Pounds Lifted During Last 30 Days"
       },
       scales: {
         yAxes: [
@@ -155,7 +158,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Time(minutes) Distribution Among Exercises During Last 30 days"
       }
     }
   });
@@ -164,7 +167,7 @@ function populateChart(data) {
   const donutChart = new Chart(pie2, {
     type: "doughnut",
     data: {
-      labels: workouts,
+      labels: workoutNames(data, true),
       datasets: [
         {
           label: "Excercises Performed",
@@ -176,7 +179,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: "Excercises Performed"
+        text: "Weight(lbs) Distribution Among Exercises During Last 30 days"
       }
     }
   });
@@ -184,34 +187,73 @@ function populateChart(data) {
 
 function duration(data) {
   const durations = [];
-
+  const exercisesName = [];
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
-      durations.push(exercise.duration);
+      const exercisesNameIndex = exercisesName.indexOf(exercise.name);
+      if (exercisesNameIndex < 0) {
+        durations.push(exercise.duration);
+        exercisesName.push(exercise.name);
+      } else {
+        durations[exercisesNameIndex] += exercise.duration;
+      }
     });
   });
-
   return durations;
+}
+
+function workoutDuration(data) {
+  const workoutDurations = [0, 0, 0, 0, 0, 0, 0];
+  data.forEach(workout => {
+    const currentDay = new Date(workout.day).getDay();
+    workoutDurations[currentDay] += workout.totalDuration;
+  });
+  return workoutDurations;
 }
 
 function calculateTotalWeight(data) {
   const total = [];
-
+  const exercisesName = [];
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
-      total.push(exercise.weight);
+      const exercisesNameIndex = exercisesName.indexOf(exercise.name);
+      if (exercisesNameIndex < 0) {
+        if (exercise.weight) {
+          total.push(exercise.weight);
+          exercisesName.push(exercise.name);
+        }
+      } else {
+        total[exercisesNameIndex] += exercise.duration;
+      }
     });
   });
-
+  console.log(JSON.stringify(total));
+  console.log(JSON.stringify(exercisesName));
   return total;
 }
 
-function workoutNames(data) {
-  const workouts = [];
+function calculateWorkoutTotalWeight(data) {
+  const workoutWeights = [0, 0, 0, 0, 0, 0, 0];
+  data.forEach(workout => {
+    const currentDay = new Date(workout.day).getDay();
+    workoutWeights[currentDay] += workout.totalWeight;
+  });
+  return workoutWeights;
+}
 
+function workoutNames(data, resistanceOnly) {
+  const workouts = [];
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
-      workouts.push(exercise.name);
+      if (workouts.indexOf(exercise.name) < 0) {
+        if (resistanceOnly) {
+          if (exercise.weight) {
+            workouts.push(exercise.name);
+          }
+        } else {
+          workouts.push(exercise.name);
+        }
+      }
     });
   });
   return workouts;

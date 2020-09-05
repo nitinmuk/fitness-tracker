@@ -2,20 +2,8 @@ const db = require("../models");
 module.exports = app => {
   app.get("/api/workouts", async (request, response) => {
     try {
-      let workouts = await db.Workout.find({});
+      const workouts = await db.Workout.find({});
       workouts.sort((wo1, wo2) => wo1.day - wo2.day);
-      workouts = workouts.map(wo => {
-        let durationSum = 0;
-        wo.exercises.forEach(exercise => {
-          durationSum += exercise.duration;
-        });
-        return {
-          _id: wo._id,
-          day: wo.day,
-          totalDuration: durationSum,
-          exercises: wo.exercises
-        };
-      });
       response.json(workouts);
     } catch (error) {
       console.log(
@@ -50,6 +38,24 @@ module.exports = app => {
     } catch (error) {
       console.log(
         `Error ocurred while updating workout id: ${request.params.id}`,
+        error
+      );
+      response.sendStatus(500);
+    }
+  });
+  // route to get last 30 days workouts for stats
+  app.get("/api/workouts/range", async (request, response) => {
+    try {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - 30);
+      const workouts = await db.Workout.find({
+        day: { $gte: cutoffDate }
+      });
+      workouts.sort((wo1, wo2) => wo1.day.getDay() - wo2.day.getDay());
+      response.json(workouts);
+    } catch (error) {
+      console.log(
+        "Error ocurred while fetching workouts for last 30 days. Detailed error:",
         error
       );
       response.sendStatus(500);

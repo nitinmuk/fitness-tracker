@@ -7,9 +7,16 @@ mongoose.connect("mongodb://localhost/fitnesstracker", {
   useUnifiedTopology: true
 });
 
+const calculateDate = dayCount => {
+  const calculatedDate = new Date(
+    new Date().setDate(new Date().getDate() - dayCount)
+  );
+  return calculatedDate;
+};
+
 const workoutSeed = [
   {
-    day: new Date().setDate(new Date().getDate() - 10),
+    day: calculateDate(10),
     exercises: [
       {
         type: "resistance",
@@ -22,7 +29,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date().setDate(new Date().getDate() - 9),
+    day: calculateDate(9),
     exercises: [
       {
         type: "resistance",
@@ -35,7 +42,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date().setDate(new Date().getDate() - 8),
+    day: calculateDate(8),
     exercises: [
       {
         type: "resistance",
@@ -48,7 +55,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date().setDate(new Date().getDate() - 7),
+    day: calculateDate(7),
     exercises: [
       {
         type: "cardio",
@@ -59,7 +66,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date().setDate(new Date().getDate() - 6),
+    day: calculateDate(6),
     exercises: [
       {
         type: "resistance",
@@ -72,7 +79,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date().setDate(new Date().getDate() - 5),
+    day: calculateDate(5),
     exercises: [
       {
         type: "resistance",
@@ -85,7 +92,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date(new Date().setDate(new Date().getDate() - 4)),
+    day: calculateDate(4),
     exercises: [
       {
         type: "resistance",
@@ -98,7 +105,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date(new Date().setDate(new Date().getDate() - 3)),
+    day: calculateDate(3),
     exercises: [
       {
         type: "resistance",
@@ -111,7 +118,7 @@ const workoutSeed = [
     ]
   },
   {
-    day: new Date(new Date().setDate(new Date().getDate() - 2)),
+    day: calculateDate(2),
     exercises: [
       {
         type: "resistance",
