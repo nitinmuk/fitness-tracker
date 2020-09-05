@@ -227,8 +227,6 @@ function calculateTotalWeight(data) {
       }
     });
   });
-  console.log(JSON.stringify(total));
-  console.log(JSON.stringify(exercisesName));
   return total;
 }
 
