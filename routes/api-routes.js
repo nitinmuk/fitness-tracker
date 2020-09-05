@@ -1,5 +1,6 @@
 const db = require("../models");
 module.exports = app => {
+  // route to get all workouts
   app.get("/api/workouts", async (request, response) => {
     try {
       const workouts = await db.Workout.find({});
