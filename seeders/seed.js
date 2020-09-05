@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 const db = require("../models");
 
-mongoose.connect("mongodb://localhost/fitnesstracker", {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-});
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/fitnesstracker",
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  }
+);
 
 const calculateDate = dayCount => {
   const calculatedDate = new Date(
