@@ -185,6 +185,10 @@ function populateChart(data) {
   });
 }
 
+/**
+ * returns an array of total duration for each exercise send in data
+ * @param {data set for exercise duration pie chart} data
+ */
 function duration(data) {
   const durations = [];
   const exercisesName = [];
@@ -201,7 +205,13 @@ function duration(data) {
   });
   return durations;
 }
-
+/**
+ * returns an array of 7 workout duration - one for each day of a week
+ * i.e. it will sum up durations for all workouts done on a specific day of week.
+ * For e.g. if data has 3 workouts for 3 different Sundays then it will sum them
+ * up and return one value for Sunday workout duration *
+ * @param {workout data} data
+ */
 function workoutDuration(data) {
   const workoutDurations = [0, 0, 0, 0, 0, 0, 0];
   data.forEach(workout => {
@@ -210,7 +220,10 @@ function workoutDuration(data) {
   });
   return workoutDurations;
 }
-
+/**
+ * returns total weight for each exercise where weight is applicable
+ * @param {workout data} data
+ */
 function calculateTotalWeight(data) {
   const total = [];
   const exercisesName = [];
@@ -230,6 +243,13 @@ function calculateTotalWeight(data) {
   return total;
 }
 
+/**
+ * returns an array of 7 total workout weight values - one for each day of a week
+ * i.e. it will sum up weights lifted across all workouts done on a specific day of week.
+ * For e.g. if data has 3 workouts for 3 different Sundays then it will sum all those
+ * weights and return one value for Sunday workout duration
+ * @param {workout data} data
+ */
 function calculateWorkoutTotalWeight(data) {
   const workoutWeights = [0, 0, 0, 0, 0, 0, 0];
   data.forEach(workout => {
@@ -238,7 +258,12 @@ function calculateWorkoutTotalWeight(data) {
   });
   return workoutWeights;
 }
-
+/**
+ * returns an array of unique exerciseNames based on provided data
+ * if @param resistanceOnly is true then it returns only those exerciseNames where weight is defined
+ * @param {workout data} data
+ * @param {true/false flag to know whether to ignore cardio exercises} resistanceOnly
+ */
 function workoutNames(data, resistanceOnly) {
   const workouts = [];
   data.forEach(workout => {
